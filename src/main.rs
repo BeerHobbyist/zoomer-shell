@@ -59,7 +59,10 @@ fn main() {
             },
             "spillthetea" => {
                 list_directory_contents();
-            },            
+            }, 
+            "flexstatus" => {
+                git_flex_status();
+            },                       
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -166,5 +169,19 @@ fn list_directory_contents() {
             println!("All tea, all shade! 💅");
         }
         Err(e) => eprintln!("Couldn't spill any tea because: {}", e),
+    }
+}
+
+fn git_flex_status() {
+    println!("Let's flex that Git status! 💪😎");
+    match Command::new("git").arg("status").output() {
+        Ok(output) => {
+            let status = String::from_utf8_lossy(&output.stdout);
+            println!(
+                "{}",
+                format!("Current sitch in the repo: \n{}", status).bright_cyan().bold()
+            );
+        }
+        Err(e) => println!("Git flexing failed: {}", e),
     }
 }
