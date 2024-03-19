@@ -62,7 +62,10 @@ fn main() {
             }, 
             "flexstatus" => {
                 git_flex_status();
-            },                       
+            },
+            "whereami" => {
+                reveal_location();
+            },                                   
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -184,4 +187,11 @@ fn git_flex_status() {
         }
         Err(e) => println!("Git flexing failed: {}", e),
     }
+}
+
+fn reveal_location() {
+    println!("Unraveling the mysteries of your current vibes... 🧐🌌");
+    let current_path = env::current_dir().expect("Failed to discover current location");
+    println!("You are here, in this digital universe: {}", current_path.display().to_string().bright_magenta().bold());
+    println!("Mind = blown 🤯 Stay woke, navigator! 🚀");
 }
