@@ -72,7 +72,10 @@ fn main() {
             "spillthattea" => {
                 let message = collect_commit_message(&mut args);
                 commit_changes(&message);
-            },                                          
+            },
+            "exploreuniverse" => {
+                explore_universe();
+            },                                                      
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -241,4 +244,20 @@ fn commit_changes(message: &str) {
             eprintln!("Couldn't even start to spill the tea: {}", e);
         }
     }
+}
+
+fn explore_universe() {
+    let messages = [
+        "🌠 Did you know? The Milky Way is on a collision course with Andromeda in about 4 billion years. Time to start packing!",
+        "🚀 Quote by Carl Sagan: 'Somewhere, something incredible is waiting to be known.'",
+        "🌌 Fun Fact: A day on Venus is longer than a year on Venus. Talk about a long workday!",
+        "✨ Remember: 'Shoot for the stars, and even if you miss, you'll land among the stars.' - Les Brown",
+        "🔭 Did you know? There are more stars in the universe than grains of sand on all the Earth's beaches.",
+        "💫 'The cosmos is within us. We are made of star-stuff.' - Carl Sagan",
+        "🌍 'Look again at that dot. That's here. That's home. That's us.' - Carl Sagan, referring to the Pale Blue Dot",
+        "🌖 'The Moon's gravity affects the ocean tides, but your determination defines your tide of life.' - Zoomer Zen",
+    ];
+    let random_message = rand::thread_rng().gen_range(0..messages.len());
+    println!("{}", messages[random_message].bright_purple().bold());
+    println!("🌈 Embrace the mystery of the cosmos and code on, explorer! 🌈");
 }
