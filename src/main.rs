@@ -65,7 +65,10 @@ fn main() {
             },
             "whereami" => {
                 reveal_location();
-            },                                   
+            },        
+            "stashthatchat" => {
+                stash_all_changes();
+            },                                       
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -194,4 +197,16 @@ fn reveal_location() {
     let current_path = env::current_dir().expect("Failed to discover current location");
     println!("You are here, in this digital universe: {}", current_path.display().to_string().bright_magenta().bold());
     println!("Mind = blown 🤯 Stay woke, navigator! 🚀");
+}
+
+fn stash_all_changes() {
+    println!("👀 Gathering all the tea... Prepping for the ultimate gossip stash! 💅🔮");
+    match Command::new("git").args(["add", "--all"]).output() {
+        Ok(_) => {
+            println!("✨ All the files are now chilling in the staging area! Ready to spill the tea with a commit? ✨");
+        }
+        Err(e) => {
+            eprintln!("Oops, couldn't stash that chat: {}", e);
+        }
+    }
 }
