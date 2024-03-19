@@ -73,6 +73,9 @@ fn main() {
                 let message = collect_commit_message(&mut args);
                 commit_changes(&message);
             },
+            "blastoff" => {
+                intergalactic_git_push();
+            },            
             "exploreuniverse" => {
                 explore_universe();
             },                                                      
@@ -260,4 +263,29 @@ fn explore_universe() {
     let random_message = rand::thread_rng().gen_range(0..messages.len());
     println!("{}", messages[random_message].bright_purple().bold());
     println!("🌈 Embrace the mystery of the cosmos and code on, explorer! 🌈");
+}
+
+fn intergalactic_git_push() {
+    println!("🌠 Commencing countdown, engines on... Prepare for intergalactic transmission! 🚀");
+    println!("👾 Locking in coordinates to the remote repository dimension...");
+    let countdown_timer = ["3... 🌍", "2... 🌌", "1... 🌠"];
+    for countdown in countdown_timer.iter() {
+        println!("{}", countdown);
+        std::thread::sleep(std::time::Duration::from_secs(1)); // Adding dramatic pause
+    }
+    match Command::new("git").args(["push"]).output() {
+        Ok(output) => {
+            if output.status.success() {
+                println!("🚀 Blastoff! Your code is now catapulting through the cosmic code-continuum! 🛰️");
+                println!("🌌 Successfully entered the orbit of the remote repository. Mission accomplished, Commander! 🎖️");
+                println!("🌠 Welcome back to Earth. Time for the next great adventure!");
+            } else {
+                let error_message = String::from_utf8_lossy(&output.stderr);
+                eprintln!("💥 Blastoff aborted: {}\nEngage troubleshooting protocols or check hyperdrive fuel (git settings)! 🧐", error_message);
+            }
+        },
+        Err(e) => {
+            eprintln!("🚨 Launch sequence failure: {}.\nConsult your local tech wizard or check the astral charts (system logs). 🧙‍♂️", e);
+        }
+    }
 }

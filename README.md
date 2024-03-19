@@ -11,6 +11,7 @@ A completly moronic shell that is created for the averege zoomer.
 - whereami - shows current directory (pwd equivalent) 🤔
 - stashthatchat - add all files to git staging area (git add . equivalent) 🤓
 - spillthattea - commit all staged files (git commit -m equivalent) 🤓
+- blastoff - push all committed files to the remote repo (git push equivalent) 🚀
 - exploreuniverse - show a random inspirational quote about space 🌌
 
 Important to note that pressing ctrl + c to exit will not work cause this shell makes sure you REALLY want to exit 😇
