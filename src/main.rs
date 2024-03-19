@@ -22,7 +22,7 @@ fn main() {
         stdin().read_line(&mut input).expect("Failed to read line");
         let mut parts = input.trim().split_whitespace();
         let command = parts.next().unwrap();
-        let args = parts;
+        let mut args = parts;
 
         match command {
             "nocapgoto" => {
@@ -68,7 +68,11 @@ fn main() {
             },        
             "stashthatchat" => {
                 stash_all_changes();
-            },                                       
+            },         
+            "spillthattea" => {
+                let message = collect_commit_message(&mut args);
+                commit_changes(&message);
+            },                                          
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -207,6 +211,34 @@ fn stash_all_changes() {
         }
         Err(e) => {
             eprintln!("Oops, couldn't stash that chat: {}", e);
+        }
+    }
+}
+
+fn collect_commit_message(args: &mut std::str::SplitWhitespace) -> String {
+    args.collect::<Vec<&str>>().join(" ").trim().to_string()
+}
+
+fn commit_changes(message: &str) {
+    if message.is_empty() {
+        println!("Sis, you can't spill the tea without a message! Try again with some real gossip. 🤫💬");
+        return;
+    }
+    
+    println!("👑 Preparing the royal scroll of changes... 📜✨");
+    match Command::new("git").args(["commit", "-m", message]).output() {
+        Ok(output) => {
+            if output.status.success() {
+                let response = String::from_utf8_lossy(&output.stdout);
+                println!("🎉 The tea has been officially spilled: {}\n{}", message, response);
+                println!("Drama archived. What's next on the tea menu? 🍵👀");
+            } else {
+                let error_message = String::from_utf8_lossy(&output.stderr);
+                eprintln!("Failed to spill the tea: {}\n{}", message, error_message);
+            }
+        },
+        Err(e) => {
+            eprintln!("Couldn't even start to spill the tea: {}", e);
         }
     }
 }
