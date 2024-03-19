@@ -57,6 +57,9 @@ fn main() {
             "uwumake" => {
                 touch_file(&args);
             },
+            "spillthetea" => {
+                list_directory_contents();
+            },            
             command => {
                 let child = Command::new(command)
                     .args(args)
@@ -148,5 +151,20 @@ fn touch_file(args: &std::str::SplitWhitespace<'_>) {
         }
     } else {
         println!("No file to touch! 😘");
+    }
+}
+
+fn list_directory_contents() {
+    println!("Spilling the tea on all these files and folders! ☕👀");
+    match std::fs::read_dir(env::current_dir().expect("Failed to read current directory")) {
+        Ok(entries) => {
+            for entry in entries {
+                if let Ok(entry) = entry {
+                    println!("{} got the gossip! 📂", entry.path().display().to_string().bright_yellow().bold());
+                }
+            }
+            println!("All tea, all shade! 💅");
+        }
+        Err(e) => eprintln!("Couldn't spill any tea because: {}", e),
     }
 }
