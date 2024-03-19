@@ -50,14 +50,26 @@ fn main() {
                 } else {
                     println!("Wrong word! You're stuck here forever! 😈");
                 }
-            }
+            },
+            "yeet" => {
+                remove_file(&args);
+            },
+            "uwumake" => {
+                touch_file(&args);
+            },
             command => {
-                let mut child = Command::new(command)
+                let child = Command::new(command)
                     .args(args)
-                    .spawn()
-                    .expect("Failed to execute command!");
+                    .spawn();
 
-                child.wait().expect("Command failed");
+                match child {
+                    Ok(mut child) => {
+                        child.wait().expect("Command failed to run");
+                    }
+                    Err(e) => {
+                        eprintln!("Failed to execute command: {}", e);
+                    }
+                }
             }
         }
     }
@@ -95,6 +107,19 @@ fn uptime() {
     }
 }
 
+fn remove_file(args: &std::str::SplitWhitespace<'_>) {
+    println!("Yeeting file! 🎯");
+    if let Some(file) = args.clone().peekable().peek() {
+        let result = std::fs::remove_file(file);
+        match result {
+            Ok(_) => println!("Yeeted {} successfully! 🚀", file),
+            Err(e) => eprintln!("Failed to yeet {}: {}", file, e),
+        }
+    } else {
+        println!("No file to yeet!");
+    }
+}
+
 fn generate_diff_word() -> String {
     let diff_words = [
         "Pneumonoultramicroscopicsilicovolcanoconiosis",
@@ -111,4 +136,17 @@ fn generate_diff_word() -> String {
     ];
     let random_number = rand::thread_rng().gen_range(0..diff_words.len());
     return diff_words[random_number].to_string();
+}
+
+fn touch_file(args: &std::str::SplitWhitespace<'_>) {
+    println!("Touching file! UwU 😘");
+    if let Some(file) = args.clone().peekable().peek() {
+        let result = std::fs::File::create(file);
+        match result {
+            Ok(_) => println!("Touched {} successfully! 💞", file),
+            Err(e) => eprintln!("Failed to touch {}: {} 😘", file, e),
+        }
+    } else {
+        println!("No file to touch! 😘");
+    }
 }
